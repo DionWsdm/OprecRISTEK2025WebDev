@@ -23,6 +23,7 @@ body {
   padding-top: 4vh;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   font-family: var(--font_fam);
+  /* position:relative; */
 }
 
 .header nav {
@@ -75,8 +76,8 @@ body {
 
 .main {
   justify-items: center;
-  margin-top: 10vh;
-  height: 70vh;
+  margin-top: 3vh;
+  height: 100%;
 }
 
 .daftar-try-out {
@@ -231,9 +232,41 @@ footer {
 }
 
 .delete-box-container-main p{
-  margin-bottom: 12vh;
+  margin-bottom: 8vh;
 }
 
 .delete-box-container-judul p{
   margin-left: 2vw;
+}
+
+.delete-box-container-buttons {
+  float: right;
+  margin-right: 1vw;
+}
+
+.delete-box-container-buttons button {
+  float: right;
+  margin-right: 1vw;
+}
+
+.delete-box-container-buttons-delete {
+  background-color: red;
+  height: 3vh;
+  width: 6vw;
+  color: white;
+  border-radius: 10px;
+  border-style: none;
+}
+
+.delete-box-container-buttons-cancel {
+  background-color: var(--primary_color);
+  height: 3vh;
+  width: 6vw;
+  color: white;
+  border-radius: 10px;
+  border-style: none;
+}
+
+.delete-box-container-buttons button:hover{
+  cursor: pointer;
 }
