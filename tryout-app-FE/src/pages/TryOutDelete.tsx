@@ -1,4 +1,4 @@
-function popUpDeleteBox()
+function popUpDeleteBox(showPopUpDelete: boolean, setPopUpDelete: Function)
 {
     return <>
     <div className="delete-box-container">
@@ -7,7 +7,7 @@ function popUpDeleteBox()
             <p>Anda yakin ingin menghapus try out?<br />Klik Delete untuk menghapus try out.<br />Klik Cancel untuk membatalkan.</p>
             <div className="delete-box-container-buttons">
                 <button className="delete-box-container-buttons-delete">Delete</button>
-                <button className="delete-box-container-buttons-cancel">Cancel</button>
+                <button onClick={() => setPopUpDelete(!showPopUpDelete)} className="delete-box-container-buttons-cancel">Cancel</button>
             </div>
         </div>
     </div>

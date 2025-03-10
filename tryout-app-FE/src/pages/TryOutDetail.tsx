@@ -1,65 +1,72 @@
 import { useParams } from "react-router";
-import { tryouts } from "../data/data";
+import TryOut from "../data/data";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import popUpDeleteBox from "./TryOutDelete";
-import React from "react";
+import getDateString from "../utils/functions";
 
-function getTryOutInfo(tryOutId: String) {
-  for (let tryout of tryouts) {
-    if (tryout.id == tryOutId) {
-      return (
-        <>
-          <div className="try-out-detail">
-            <h1 className="judul">{tryout.judul}</h1>
-            <div className="general-info">
-              <p>Judul :{tryout.judul}</p>
-              <p>Mata Pelajaran : {tryout.mapel}</p>
-              <p>Tanggal dibuat : {tryout.tanggal_dibuat}</p>
-              <p>Tanggal pelaksanaan : {tryout.tanggal_pelaksanaan}</p>
-              <p>Waktu Pelaksanaan : {tryout.waktu}</p>
-              <p>Jumlah Soal : {tryout.jumlahSoal}</p>
-            </div>
-            <div className="operations">
-              <button>Edit</button>
-            </div>
-          </div>
-          <div className="kerjakan">
-            <p>Try out belum dimulai!</p>
-            <p>Dimulai dalam: </p>
-            <button>Kerjakan</button>
-          </div>
-        </>
-      );
-    }
-  }
+function getTryOutInfo(tryOutId: number) {
+  const [tryout, setTryOut] = useState<TryOut>();
+  useEffect(() => {
+    fetch(`http://localhost:4000/tryOuts/${tryOutId}`)
+      .then((response) => response.json())
+      .then((data) => setTryOut(data.tryOutDetail[0]))
+      .catch((error) => console.error("Error mengambil data: ", error));
+  }, []);
+  if (!tryout)
+    return (
+      <>
+        <h1>No Data</h1>
+      </>
+    );
+
+  return (
+    <>
+      <div className="try-out-detail">
+        <h1 className="judul">{tryout.judul}</h1>
+        <div className="general-info">
+          <p>Judul :{tryout.judul}</p>
+          <p>Mata Pelajaran : {tryout.mapel}</p>
+          <p>Tanggal dibuat : {getDateString(tryout.tanggal_dibuat)}</p>
+          <p>Tanggal pelaksanaan : {getDateString(tryout.tanggal_dilaksanakan)}</p>
+          <p>Waktu Pelaksanaan : {tryout.waktu_pelaksanaan}</p>
+          <p>Jumlah Soal : {tryout.jumlah_soal}</p>
+        </div>
+        <div className="operations">
+          <button>Edit</button>
+        </div>
+      </div>
+      <div className="kerjakan">
+        <p>Try out belum dimulai!</p>
+        <p>Dimulai dalam: </p>
+        <button>Kerjakan</button>
+      </div>
+    </>
+  );
 }
 
 function TryOutDetail() {
-  const [showPopUpDelete, setPopUpDelete] = useState(false)
-    const tryOutId: string = useParams()["tryOutId"] || "";
-    const handleClick = (event: React.MouseEvent) => {
-      console.log(event);
-    }
+  const tryOutId: string = useParams()["tryOutId"] || "";
+  const [showPopUpDelete, setPopUpDelete] = useState(false);
+  console.log("tryout id =", tryOutId);
 
-
-    return (
+  return (
     <>
-        <header className="header">
+      <header className="header">
         <nav>
           <Link to={"/"} className="try-outs">
             <h1>Try Outs</h1>
           </Link>
 
           <div className="cud">
-            <button onClick={(event) => setPopUpDelete(true)}>Delete</button>
+            <button onClick={() => setPopUpDelete(true)}>Delete</button>
           </div>
         </nav>
-        </header>
-        {getTryOutInfo(tryOutId)}
-        {showPopUpDelete && popUpDeleteBox()}
+      </header>
+      {getTryOutInfo(parseInt(tryOutId))}
+      {showPopUpDelete && popUpDeleteBox(showPopUpDelete, setPopUpDelete)}
     </>
-    );
+  );
 }
 
 export default TryOutDetail;
