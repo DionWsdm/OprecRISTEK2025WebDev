@@ -17,7 +17,7 @@ const getFilteredTryOuts = (query)=> {
 }
 
 const getTryOutDetail = (tryOutId) => {
-    const SQLQuery = `SELECT * FROM tryouts WHERE id=${tryOutId} `
+    const SQLQuery = `SELECT * FROM tryouts WHERE id=${tryOutId}`
     return dbpool.execute(SQLQuery);
 }
 
@@ -33,7 +33,7 @@ const editTryOut = async (body, tryOutId) => {
     const tryOutData = await getTryOutDetail(tryOutId);
     const tryOut = tryOutData[0][0];
     const SQLQuery = `  UPDATE tryouts SET judul='${body.judul || tryOut.judul}', mapel='${body.mapel || tryOut.mapel}', 
-                        tanggal_dilaksanakan='${body.tanggal_dilaksanakan || getDateString(tryOut.tanggal_dilaksanakan)}', 
+                        tanggal_dilaksanakan='${body.tanggal_dilaksanakan || functions.getDateString(tryOut.tanggal_dilaksanakan)}', 
                         waktu_pelaksanaan='${body.waktu_pelaksanaan || tryOut.waktu_pelaksanaan}', 
                         jumlah_soal=${body.jumlah_soal || tryOut.jumlah_soal} WHERE id=${tryOutId}`;
     return dbpool.execute(SQLQuery);
